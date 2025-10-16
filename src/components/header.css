@@ -1,0 +1,38 @@
+.navbar {
+  background-color: #181a28;
+  padding: 10px 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 16px;
+  margin: 20px auto;
+  max-width: calc(100% - 32px);
+  width: fit-content;
+  min-width: 450px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  
+}
+
+.nav-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+}
+
+.nav-logo img {
+  height: 50px;
+  display: block;
+}
+
+.nav-title {
+  color: #ffffff;
+ font-family: 'Poppins', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
