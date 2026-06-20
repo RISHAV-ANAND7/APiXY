@@ -1,23 +1,6 @@
 import { TableRow, TableCell, Checkbox, TextField } from "@mui/material";
-import { makeStyles } from "@mui/styles";
-
-const useStyles = makeStyles(() => ({
-  TableCell: {
-    border: "1px solid rgba(224, 224, 224, 1)",
-    borderCollapse: "collapse",
-    padding: "7px 5px !important",
-  },
-  Checkbox: {
-    padding: "2px 5px !important",
-  },
-  TextField: {
-    width: "100%",
-  },
-}));
 
 const AddRow = ({ addRows, rowId, data, setData }) => {
-  const classes = useStyles();
-
   // Get the current row object (or empty if new)
   const currentRow = data.find((entry) => entry.id === rowId) || {};
 
@@ -36,7 +19,7 @@ const AddRow = ({ addRows, rowId, data, setData }) => {
       return newArray;
     });
 
-    // ✅ Generate new row only when checked
+    // Generate new row only when checked
     if (isChecked) {
       addRows((oldArr) => [...oldArr, rowId + 1]);
     }
@@ -58,28 +41,35 @@ const AddRow = ({ addRows, rowId, data, setData }) => {
   };
 
   return (
-    <TableRow>
-      <TableCell className={classes.TableCell}>
+    <TableRow sx={{ '&:hover': { backgroundColor: 'var(--bg-tertiary)' } }}>
+      <TableCell sx={{ borderBottom: "1px solid var(--border-color)", borderRight: "1px solid var(--border-color)", padding: '4px 8px' }}>
         <Checkbox
           checked={!!currentRow.check}
-          size="large"
-          className={classes.Checkbox}
+          size="small"
           onChange={handleCheckboxChange}
+          sx={{
+            color: 'var(--text-secondary)',
+            '&.Mui-checked': { color: 'var(--accent-color)' }
+          }}
         />
       </TableCell>
-      <TableCell className={classes.TableCell}>
+      <TableCell sx={{ borderBottom: "1px solid var(--border-color)", borderRight: "1px solid var(--border-color)", padding: 0 }}>
         <TextField
-          className={classes.TextField}
-          inputProps={{ style: { height: 30, padding: "0 5px" } }}
+          variant="standard"
+          placeholder="Key"
+          InputProps={{ disableUnderline: true, style: { padding: '8px 12px', fontSize: '14px', fontFamily: 'monospace', color: 'var(--text-primary)' } }}
+          sx={{ width: '100%' }}
           onChange={handleTextChange}
           name="key"
           value={currentRow.key || ""}
         />
       </TableCell>
-      <TableCell className={classes.TableCell}>
+      <TableCell sx={{ borderBottom: "1px solid var(--border-color)", padding: 0 }}>
         <TextField
-          className={classes.TextField}
-          inputProps={{ style: { height: 30, padding: "0 5px" } }}
+          variant="standard"
+          placeholder="Value"
+          InputProps={{ disableUnderline: true, style: { padding: '8px 12px', fontSize: '14px', fontFamily: 'monospace', color: 'var(--text-primary)' } }}
+          sx={{ width: '100%' }}
           onChange={handleTextChange}
           name="value"
           value={currentRow.value || ""}

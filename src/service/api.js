@@ -1,5 +1,4 @@
 import axios from "axios";
-
 import { getHeadersAndParams } from "../utils/commonutils";
 
 export const getData = async (formData, jsonText, paramData, headerData) => {
@@ -18,6 +17,10 @@ export const getData = async (formData, jsonText, paramData, headerData) => {
     });
   } catch (error) {
     console.log("Error while getting the response ", error);
+    if (error.response) {
+      // Return the error response so we can display the status code and error payload
+      return error.response;
+    }
     return "error";
   }
 };

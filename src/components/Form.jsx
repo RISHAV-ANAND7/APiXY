@@ -1,36 +1,14 @@
 import { useContext } from 'react'
-import {Box,Select,MenuItem, TextField, Button} from '@mui/material'
-import { makeStyles } from '@mui/styles'
+import { Box, Select, MenuItem, TextField, Button, InputAdornment, SvgIcon } from '@mui/material'
 import { DataContext } from '../context/DataProvider';
 
-const useStyles= makeStyles({
-component:{
+const SendIcon = (props) => (
+  <SvgIcon {...props}>
+    <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+  </SvgIcon>
+);
 
-  display:'flex',
-  alignItems:'center',
-  justifyContent:'space-between',
-  gap:'12px',
-},
-
-  Select:{
-    width:150,
-    height:40
-  },
-
-  TextField:{
-    width:'100%',
-    background:'#f6f6f6'
-  },
-
-  Button:{
-    height:40,
-    width:100,
-  }
-})
-
-const Form = ({onSendClick}) => {
-  const classes = useStyles();
-
+const Form = ({ onSendClick }) => {
   const { formData, setFormData } = useContext(DataContext);
 
   const handleChange = (e) => {
@@ -41,30 +19,97 @@ const Form = ({onSendClick}) => {
     setFormData({ ...formData, url: e.target.value });
   };
 
+  // Determine the color of the HTTP method text based on the method
+  const getMethodColor = (method) => {
+    switch (method) {
+      case 'GET': return '#2563eb';
+      case 'POST': return '#10b981';
+      case 'PUT': return '#f59e0b';
+      case 'DELETE': return '#ef4444';
+      case 'PATCH': return '#8b5cf6';
+      default: return 'var(--text-primary)';
+    }
+  }
+
   return (
-    <Box className={classes.component}>
-           <Select
-    value={formData.type}
-    label="POST"
-    onChange={(e)=>handleChange(e)}
-    className={classes.Select}
-  >
-    <MenuItem value={"POST"}>POST</MenuItem>
-    <MenuItem value={"GET"}>GET</MenuItem>
-  </Select>
-  <TextField
-    size="small"
-    className={classes.TextField}
-    onChange={(e) => onUrlChange(e)}
-  />
-  <Button className={classes.Button}
-  variant='contained'
-   onClick={()=> onSendClick()}
-  >
-    Send
-  </Button>
+    <Box sx={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      gap: 2,
+    }}>
+      <Select
+        value={formData.type}
+        onChange={(e) => handleChange(e)}
+        sx={{
+          width: 130,
+          height: 48,
+          backgroundColor: 'var(--bg-tertiary)',
+          color: getMethodColor(formData.type),
+          fontWeight: 700,
+          '& .MuiSelect-select': {
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }
+        }}
+        MenuProps={{
+          PaperProps: {
+            sx: {
+              bgcolor: 'var(--bg-tertiary)',
+              '& .MuiMenuItem-root': {
+                fontWeight: 600,
+              }
+            }
+          }
+        }}
+      >
+        <MenuItem value={"GET"} sx={{ color: '#2563eb' }}>GET</MenuItem>
+        <MenuItem value={"POST"} sx={{ color: '#10b981' }}>POST</MenuItem>
+        <MenuItem value={"PUT"} sx={{ color: '#f59e0b' }}>PUT</MenuItem>
+        <MenuItem value={"DELETE"} sx={{ color: '#ef4444' }}>DELETE</MenuItem>
+        <MenuItem value={"PATCH"} sx={{ color: '#8b5cf6' }}>PATCH</MenuItem>
+        <MenuItem value={"OPTIONS"} sx={{ color: '#6b7280' }}>OPTIONS</MenuItem>
+      </Select>
+      
+      <TextField
+        size="medium"
+        placeholder="Enter request URL"
+        value={formData.url || ''}
+        onChange={(e) => onUrlChange(e)}
+        sx={{
+          flex: 1,
+          backgroundColor: 'var(--bg-primary)',
+          borderRadius: 1,
+          '& .MuiOutlinedInput-root': {
+            height: 48,
+          },
+          '& .MuiInputBase-input': {
+            fontFamily: 'monospace',
+            fontSize: '15px'
+          }
+        }}
+      />
+      
+      <Button 
+        variant='contained'
+        onClick={() => onSendClick()}
+        endIcon={<SendIcon />}
+        sx={{
+          height: 48,
+          px: 4,
+          fontWeight: 600,
+          fontSize: '15px',
+          backgroundColor: 'var(--accent-color)',
+          '&:hover': {
+            backgroundColor: 'var(--accent-hover)',
+          }
+        }}
+      >
+        Send
+      </Button>
     </Box>
   )
 }
 
-export default Form
+export default Form;

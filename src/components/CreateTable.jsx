@@ -1,44 +1,40 @@
 import { useState } from 'react';
-
-import {Box, Typography, Table, TableHead, TableBody, TableRow, TableCell} from '@mui/material';
-import { makeStyles } from '@mui/styles';
-
+import { Box, Typography, Table, TableHead, TableBody, TableRow, TableCell } from '@mui/material';
 import AddRow from './AddRow';
 
-const useStyles = makeStyles((theme) => ({
-  TableCell: {
-    border: "1px solid rgba(224, 224, 224, 1)",
-    borderCollapse: "collapse",
-padding: "7px 5px !important"
-  },
-}));
-
-const CreateTable = ({text, data, setData}) => {
-  const classes = useStyles();
-
+const CreateTable = ({ text, data, setData }) => {
   const [rows, addRows] = useState([0]);
 
   return (
     <Box>
-      <Typography mt={2} mb={2}> {text}</Typography>
-      <Table sx={{ minWidth: "100%", border: "1px solid rgba(224, 224, 224, 1)  " }} aria-label="simple table">
-        <TableHead>
+      <Typography variant="subtitle2" sx={{ mb: 2, color: 'var(--text-secondary)', fontWeight: 600 }}>
+        {text}
+      </Typography>
+      <Table 
+        sx={{ 
+          minWidth: "100%", 
+          border: "1px solid var(--border-color)",
+          borderRadius: '8px',
+          overflow: 'hidden'
+        }} 
+        size="small"
+      >
+        <TableHead sx={{ backgroundColor: 'var(--bg-tertiary)' }}>
           <TableRow>
-            <TableCell className={classes.TableCell}></TableCell>
-            <TableCell className={classes.TableCell}>KEY</TableCell>
-            <TableCell className={classes.TableCell}>VALUE</TableCell>
+            <TableCell sx={{ borderBottom: "1px solid var(--border-color)", borderRight: "1px solid var(--border-color)", width: 50 }}></TableCell>
+            <TableCell sx={{ borderBottom: "1px solid var(--border-color)", borderRight: "1px solid var(--border-color)", color: 'var(--text-secondary)', fontWeight: 600 }}>KEY</TableCell>
+            <TableCell sx={{ borderBottom: "1px solid var(--border-color)", color: 'var(--text-secondary)', fontWeight: 600 }}>VALUE</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row, index) => (
             <AddRow 
-            addRows={addRows}
-            rowId={index}
-            key={index}
-            data={data}
-            setData={setData}
+              addRows={addRows}
+              rowId={index}
+              key={index}
+              data={data}
+              setData={setData}
             />
-            
           ))}
         </TableBody>
       </Table>
@@ -46,4 +42,4 @@ const CreateTable = ({text, data, setData}) => {
   )
 }
 
-export default CreateTable
+export default CreateTable;

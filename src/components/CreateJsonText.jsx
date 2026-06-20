@@ -1,37 +1,58 @@
 import { useContext } from "react";
-import { Typography, TextareaAutosize } from "@mui/material"
+import { Typography, Box } from "@mui/material";
+import CodeMirror from '@uiw/react-codemirror';
+import { json } from '@codemirror/lang-json';
+import { vscodeDark } from '@uiw/codemirror-theme-vscode';
 
 import { DataContext } from "../context/DataProvider";
-
-const textareaStyle = {
-  width: "100%",
-  padding: 10,
-  background: `url(http://i.imgur.com/2cOaJ.png)`,
-  backgroundAttachment: "local",
-  backgroundRepeat: "no-repeat",
-  paddingLeft: 35,
-  paddingTop: 10,
-  borderColor: "#ccc"
-};
+import { ThemeModeContext } from "../context/ThemeModeContext";
 
 const CreateJsonText = () => {
+  const { jsonText, setJsonText } = useContext(DataContext);
+  const { mode } = useContext(ThemeModeContext);
 
-const {setJsonText}= useContext(DataContext);
+  const onValueChange = (val) => {
+    setJsonText(val);
+  }
 
-const onValueChange=(e)=>{
-  setJsonText(e.target.value);
-}
   return (
-    <>
-    <Typography mt={2} mb={2} >Json</Typography>
-     <TextareaAutosize
-        minRows={5}
-        maxRows={10}
-        style={textareaStyle}
-        onChange={(e)=> onValueChange(e)}
-    />
-    </>
+    <Box sx={{ mt: 1, display: 'flex', flexDirection: 'column', flex: 1 }}>
+      <Typography variant="subtitle2" sx={{ mb: 2, color: 'var(--text-secondary)', fontWeight: 600 }}>
+        JSON Body
+      </Typography>
+      <Box sx={{ 
+        border: '1px solid var(--border-color)', 
+        borderRadius: '8px', 
+        overflow: 'hidden',
+        display: 'flex',
+        flexDirection: 'column',
+        flex: 1,
+        '& .cm-editor': {
+          fontFamily: 'monospace',
+          fontSize: '14px',
+          height: '100%'
+        },
+        '& .cm-scroller': {
+          overflow: 'auto'
+        }
+      }}>
+        <CodeMirror
+          value={jsonText || ''}
+          height="100%"
+          minHeight="250px"
+          theme={mode === 'dark' ? vscodeDark : 'light'}
+          extensions={[json()]}
+          onChange={onValueChange}
+          basicSetup={{
+            lineNumbers: true,
+            foldGutter: true,
+            highlightActiveLine: true,
+            tabSize: 2,
+          }}
+        />
+      </Box>
+    </Box>
   )
 }
 
-export default CreateJsonText
+export default CreateJsonText;

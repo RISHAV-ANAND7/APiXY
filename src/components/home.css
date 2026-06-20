@@ -1,5 +1,5 @@
 .background {
-  background-color:rgb(101, 214, 184);
+  background-color: var(--bg-primary);
   min-height: 100vh; 
-  margin-top: 0px;
+  padding-bottom: 40px;
 }
