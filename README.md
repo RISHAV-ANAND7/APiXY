@@ -8,7 +8,7 @@ APiXY is a fast, intuitive, and open-source **API testing tool** designed as a m
 
 ### ✨ Live Demo
 
-**[apixy-iota.vercel.app](https://www.google.com/search?q=https://apixy-iota.vercel.app)**
+**[apixy-iota.vercel.app](https://apixy-iota.vercel.app/)**
 
 -----
 
