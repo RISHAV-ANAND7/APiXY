@@ -1,5 +1,7 @@
+/* Home studio layout enhancements */
 .background {
   background-color: var(--bg-primary);
-  min-height: 100vh; 
-  padding-bottom: 40px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
